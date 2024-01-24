@@ -44,7 +44,7 @@ func (a authServiceImp) Register(registerRequest dto.RegisterRequest) (*dto.Auth
 		return nil, err
 	}
 	// generate token
-	accessToken, errToken := jwtToken.GenerateToken(getUser.ID, getUser.Username)
+	accessToken, errToken := jwtToken.GenerateToken(int(getUser.ID), getUser.Username)
 	if errToken != nil {
 		return nil, errToken
 	}
@@ -65,7 +65,7 @@ func (a authServiceImp) Login(loginRequest dto.LoginRequest) (*dto.AuthResponse,
 		return nil, err
 	}
 	//generate token
-	accessToken, errToken := jwtToken.GenerateToken(getUser.ID, getUser.Username)
+	accessToken, errToken := jwtToken.GenerateToken(int(getUser.ID), getUser.Username)
 	if errToken != nil {
 		return nil, errToken
 	}

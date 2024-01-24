@@ -8,26 +8,26 @@ import (
 
 type Claims struct {
 	Username string `json:"username"`
-	UserID   uint   `json:"user_id"`
+	UserID   int    `json:"user_id"`
 	jwt.StandardClaims
 }
 
-var secretKey = []byte("das#jd!ahDjSwr$we$ry$wbw_we^t*&^$%^#$sa)s")
+var SecretKey = []byte("das#jd!ahDjSwr$we$ry$wbw_we^t*&^$%^#$sa)s")
 
-func GenerateToken(userID uint, username string) (string, error) {
+func GenerateToken(userID int, username string) (string, error) {
 	// Create the claims
 	claims := Claims{
 		Username: username,
 		UserID:   userID,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 1).Unix(), // Token expires in 1 hour
+			ExpiresAt: time.Now().Add(2 * time.Hour).Unix(), // Token expires in 2 hour
 			IssuedAt:  time.Now().Unix(),
 		},
 	}
 	// Create the token
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	// Sign the token with the secret key
-	tokenString, err := token.SignedString(secretKey)
+	tokenString, err := token.SignedString(SecretKey)
 	if err != nil {
 		return "", err
 	}
@@ -40,7 +40,7 @@ func GenerateToken(userID uint, username string) (string, error) {
 func VerifyToken(tokenString string) (*Claims, error) {
 	// Parse the token
 	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(token *jwt.Token) (interface{}, error) {
-		return secretKey, nil
+		return SecretKey, nil
 	})
 	// Check for errors
 	if err != nil {
