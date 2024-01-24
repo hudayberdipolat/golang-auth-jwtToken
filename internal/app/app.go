@@ -2,6 +2,7 @@ package app
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/hudayberdipolat/golang-auth-jwtToken/internal/setup/routes"
 	"time"
 )
 
@@ -24,5 +25,7 @@ func NewApp(dependencies *Dependencies) (httpServer *fiber.App) {
 		ReadTimeout:  3 * time.Minute,
 	})
 
+	// routes
+	routes.Routes(httpServer)
 	return httpServer
 }
