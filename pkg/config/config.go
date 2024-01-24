@@ -1,6 +1,9 @@
 package config
 
-import "github.com/ilyakaznacheev/cleanenv"
+import (
+	"github.com/ilyakaznacheev/cleanenv"
+	"os"
+)
 
 type Config struct {
 	DbConfig   DbConfig   `json:"db_config"`
@@ -28,6 +31,22 @@ func GetConfig() (*Config, error) {
 	err := cleanenv.ReadConfig("../../.env", &cfg)
 	if err != nil {
 		return nil, err
+	}
+	cfg = Config{
+		DbConfig: DbConfig{
+			DbHost:     os.Getenv("DB_HOST"),
+			DbPort:     os.Getenv("DB_PORT"),
+			DbUser:     os.Getenv("DB_USER"),
+			DbPassword: os.Getenv("DB_PASSWORD"),
+			DbName:     os.Getenv("DB_NAME"),
+			DbSllMode:  os.Getenv("DB_SLL_MODE"),
+		},
+		HttpServer: HttpServer{
+			ServerHost: os.Getenv("SERVER_HOST"),
+			ServerPort: os.Getenv("SERVER_PORT"),
+			AppName:    os.Getenv("APP_NAME"),
+			AppHeader:  os.Getenv("APP_HEADER"),
+		},
 	}
 	return &cfg, nil
 }
