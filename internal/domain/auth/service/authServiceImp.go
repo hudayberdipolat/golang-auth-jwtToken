@@ -2,12 +2,13 @@ package service
 
 import (
 	"errors"
+	"time"
+
 	"github.com/hudayberdipolat/golang-auth-jwtToken/internal/domain/auth/dto"
 	"github.com/hudayberdipolat/golang-auth-jwtToken/internal/domain/auth/repository"
 	"github.com/hudayberdipolat/golang-auth-jwtToken/internal/models"
 	"github.com/hudayberdipolat/golang-auth-jwtToken/pkg/jwtToken"
 	"golang.org/x/crypto/bcrypt"
-	"time"
 )
 
 type authServiceImp struct {
@@ -57,12 +58,12 @@ func (a authServiceImp) Login(loginRequest dto.LoginRequest) (*dto.AuthResponse,
 	//get user
 	getUser, err := a.authRepo.GetByUserWithUsername(loginRequest.Username)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("Username or password wrong!!!")
 	}
 	// password composer
 	errPassword := bcrypt.CompareHashAndPassword([]byte(getUser.Password), []byte(loginRequest.Password))
 	if errPassword != nil {
-		return nil, err
+		return nil, errors.New("Username or password wrong!!!")
 	}
 	//generate token
 	accessToken, errToken := jwtToken.GenerateToken(int(getUser.ID), getUser.Username)

@@ -1,12 +1,13 @@
 package handler
 
 import (
+	"net/http"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/hudayberdipolat/golang-auth-jwtToken/internal/domain/auth/dto"
 	"github.com/hudayberdipolat/golang-auth-jwtToken/internal/domain/auth/service"
 	"github.com/hudayberdipolat/golang-auth-jwtToken/internal/utils/response"
 	"github.com/hudayberdipolat/golang-auth-jwtToken/internal/utils/validate"
-	"net/http"
 )
 
 type authHandlerImp struct {
@@ -55,7 +56,7 @@ func (a authHandlerImp) Login(ctx *fiber.Ctx) error {
 	// login user
 	loginResponse, err := a.authService.Login(loginRequest)
 	if err != nil {
-		errResponse := response.Error(http.StatusBadRequest, "user can't registered", err.Error(), nil)
+		errResponse := response.Error(http.StatusBadRequest, "user can't login", err.Error(), nil)
 		return ctx.Status(http.StatusBadRequest).JSON(errResponse)
 	}
 	successResponse := response.Success(http.StatusOK, "user login successfully", loginResponse)
