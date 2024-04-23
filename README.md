@@ -10,9 +10,9 @@ register validate
 
 2. login
 ![login](/project-images/login.png)
-   
+
+login validate
 ![login validate](/project-images/login_validate1.png)
-![login validate](/project-images/login_validate2.png)
 
 3. user profile
 ![get user data ](/project-images/get_user_data.png)
